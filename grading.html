@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta />
+    <title>GRADING CALCULATOR</title>
+    <link rel="icon" type="image/x-icon" href="calculators.jpeg" />
+  </head>
+  <body>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      /* this body color */
+      body {
+        background-color: rgb(242, 243, 192);
+        text-align: center;
+        margin-top: 35vh;
+      }
+
+      button {
+        display: inline-block;
+        padding: 15px 30px;
+        font-size: 18px;
+        text-align: center;
+        text-decoration: none;
+        background-color: #3498db; /* Blue background */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transition */
+      }
+
+      button:hover {
+        transform: rotateX(20deg); /* Rotate on hover */
+        background-color: #2980b9; /* Darker blue on hover */
+      }
+
+      button:active {
+        transform: rotateX(10deg); /* Smaller rotation on click */
+        background-color: #1f618d; /* Even darker blue on click */
+      }
+
+      button {
+        box-shadow: 0 15px 13px rgba(0, 0, 0, 0.2); /* box shadows*/
+      }
+      #result {
+        margin-top: 2em;
+        font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+        color: black;
+        font-size: 2em;
+      }
+    </style>
+    <div class="container">
+      <h1 class="ms-container">Grade Calculator</h1>
+
+      <button class="checkyourprogress">Check your grade</button>
+
+      <p id="result"></p>
+      <p class="error"></p>
+    </div>
+    <script>
+      let btn = document.querySelector(".checkyourprogress");
+      let p = document.querySelector("#result");
+      let error = document.querySelector(".error");
+    
+      btn.addEventListener("click", () => {
+        p.textContent = "";
+        error.textContent = "";
+      let getstudentdata = () => {
+        let totalsubject = parseInt(prompt("Please enter your number of subjects")
+        );
+
+        let marks = [];
+
+        if (isNaN(totalsubject)) {
+          alert("Please enter a valid number for the number of subjects.");
+          return;
+        }
+
+        for (let i = 1; i <= totalsubject; i++) {
+          let mark = parseInt(prompt(`Enter your marks for subject ${i}`)
+          );
+
+          if (isNaN(mark) || mark < 0 || mark > 100) {
+            alert("Please enter a valid number for marks (0-100).");
+            return;
+          }
+
+          marks.push(mark);
+        }
+
+        return marks;
+      };
+
+      function gradingmarks(marks) {
+        let obtainedMarks = marks.reduce((sum, mark) => sum + mark, 0);
+        return obtainedMarks;
+      }
+      function gradingpercentage(obtainedMarks, totalsubject) {
+        if (totalsubject <= 0) {
+          return 0;
+        }
+
+        return (obtainedMarks / (totalsubject * 100)) * 100;
+      }
+      function grading(percentage) {
+  if (percentage > 100) {
+    return "Please enter a valid number under 100";
+  } else if (percentage >= 90 && percentage <= 100) {
+    return "A+";
+  } else if (percentage >= 80 && percentage < 90) {
+    return "A";
+  } else if (percentage >= 70 && percentage < 80) {
+    return "B";
+  } else if (percentage >= 60 && percentage < 70) {
+    return "C";
+  } else if (percentage >= 50 && percentage < 60) {
+    return "D";
+  } else {
+    return "F";
+  }
+}
+  
+
+      let studentsmarks = getstudentdata();
+    
+        if (studentsmarks) {
+          let obtainedMarks = gradingmarks(studentsmarks);
+          let percentage = gradingpercentage(
+            obtainedMarks,
+            studentsmarks.length
+          );
+          let grade = grading(percentage);
+
+          p.textContent = `
+Obtained Marks: ${obtainedMarks} 
+ Percentage: ${percentage.toFixed(2)}% 
+ Grade: ${grade} `;
+          p.style.color = "green";
+        }
+     
+      
+        else{
+          p.style.display = "none";
+       
+          error.textContent = "Invilad number error";
+          error.style.color = "red";
+          error.style.fontSize = "2em";
+          error.style.marginTop = "4vmin";
+     
+          
+        }
+      });
+    </script>
+  </body>
+</html>
